@@ -1,0 +1,174 @@
+swagger: "2.0"
+info:
+  description: "This is a fun game for any chill and food event. Fun for people aged from 16 to 99. This game can be played between 2 and 4 people [http://swagger.io](http://swagger.io) `endless fun`"
+  version: "0.0.1"
+  title: "Labyrinth Game"
+  contact:
+    email: "stwaec@gmail.com"
+host: "api.game.io"
+basePath: "/v1"
+tags:
+- name: "games"
+  description: "Operations about game sessions"
+
+schemes:
+- "https"
+
+paths:
+  /games:
+    post:
+      tags:
+      - "games"
+      summary: "create a new game session"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/session_request"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+              $ref: "#/definitions/session_response"
+        400:
+          description: "Invalid input"
+        500:
+          description: "Error"
+  /games/{session_id}/players:
+    post:
+      tags:
+      - games
+      summary: "create a new player in an exisitng game session"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+            $ref: "#/definitions/player_request"
+      - in: path
+        name: session_id
+        required: true
+        type: string
+        description: "identifier of the session. Other player can use this to join the session"
+        pattern: "^[0-9A-Z]{4}$"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid input"
+        500:
+          description: "Error"
+  /games/{session_id}:
+    put:
+      tags:
+      - games
+      summary: "start an exisitng session"
+      description: "Once at least two players have joined the session then the game can be started"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: path
+        name: session_id
+        required: true
+        type: string
+        description: "identifier of the session. Other player can use this to join the session"
+        pattern: "^[0-9A-Z]{4}$"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid input"
+        500:
+          description: "Error"  
+  
+  
+  
+  
+
+
+definitions:
+  session_request:
+    type: object
+    required:
+    - "player_name"
+    properties:
+      player_name:
+          $ref: "#/definitions/player_name"
+      theme:
+          type: string
+          description: "Through the theme parameter it is possible to change the appearance of the games. If not provided then the default themes is use"
+          enum:
+          - "default"
+          - "game_of_thrones"
+          example: "game_of_thrones"
+  session_response:
+    type: object
+    properties:
+      session_id:
+        type: string
+        description: "identifier of the session. Other player can use this to join the session"
+        pattern: "^[0-9A-Z]{4}$"
+      qr_code:
+        type: string
+        description: "session_id formatted as qr code for the app to display so that other players can scan it WAES: could be done in the app directly"
+  player_request:
+    type: object
+    properties:
+      player_name:
+        $ref: "#/definitions/player_name"
+
+  
+  
+  
+  
+  players:
+    type: array
+    minimum: 1
+    maximum: 4
+    items:
+        type: object
+        properties:
+          player_name:
+            $ref: "#/definitions/player_name"
+          player_number:
+            $ref: "#/definitions/player_number"
+          player_position:
+            $ref: "#/definitions/player_position"
+  player_name:
+    type: string
+    description: "name of the player"
+    example: "Arya"
+  player_number:
+    type: integer
+    description: "player number"
+    minimum: 1
+    maximum: 4
+    example: 1
+  player_position:
+    $ref: "#/definitions/coordinates"      
+  coordinates:  
+    type: object
+    properties:
+      x:
+        type: integer
+        minimum: 0
+        maximum: 7
+        example: 1
+      y:
+        type: integer
+        minimum: 0
+        maximum: 7
+        example: 1    
