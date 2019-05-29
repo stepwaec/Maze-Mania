@@ -1,34 +1,25 @@
-// App engine app
+// Package helloworld provides a set of Cloud Functions samples.
 package main
 
 import (
+	"encoding/json"
 	"fmt"
-	"log"
+	"html"
 	"net/http"
-	"os"
 )
 
-// indexHandler responds to requests with our greeting.
-// http.Request - incoming HTTP request
-// http.ResponseWriter - assembles the HTTP server response - send data to webbrowser
-func indexHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/" {
-			http.NotFound(w, r)
-			return
+// HelloHTTP is an HTTP Cloud Function with a request parameter.
+func HelloHTTP(w http.ResponseWriter, r *http.Request) {
+	var d struct {
+		Name string `json:"name"`
 	}
-	fmt.Fprint(w, "Hello, World!")
-}
-
-// entry point of your executable program
-func main() {
-	http.HandleFunc("/", indexHandler)
-
-	port := os.Getenv("PORT")
-	if port == "" {
-			port = "8080"
-			log.Printf("Defaulting to port %s", port)
+	if err := json.NewDecoder(r.Body).Decode(&d); err != nil {
+		fmt.Fprint(w, "Hello, World!")
+		return
 	}
-
-	log.Printf("Listening on port %s", port)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), nil))
+	if d.Name == "" {
+		fmt.Fprint(w, "Hello, World!")
+		return
+	}
+	fmt.Fprintf(w, "Hello, %s!", html.EscapeString(d.Name))
 }
