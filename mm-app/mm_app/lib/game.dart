@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'pieces/tile.dart';
+import 'pieces/grid.dart';
 
 class GameScreen extends StatefulWidget {
   GameScreen({Key key, this.gameRules}) : super(key: key);
@@ -10,7 +11,14 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
-  BoardTile _floatTile = BoardTile(angle: 0,target: null,tile: new TileDesign());
+  BoardTile _floatTile = BoardTile(angle: 0, type: 'corner', treasure: null);
+  int _floatAngle = 0;
+
+  void _rotateTile() {
+    setState(() {
+      _floatAngle = (_floatAngle + 90) % 360;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +33,21 @@ class _GameScreenState extends State<GameScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            _floatTile
-            ,
-            Text(
-                'Grid size is (rows:${widget.gameRules['grid_rows']}, columns:${widget.gameRules['grid_columns']})'
-            ),
+            SizedBox(
+            width: 500.0,
+            height: 500.0,
+          child:
+            GameGrid(gameRules: widget.gameRules,),
+        ),
+        GestureDetector(
+            onTap: (){
+              _rotateTile();
+            },
+            child: RotatedBox(
+                quarterTurns: (_floatAngle / 90).round(),
+                child: _floatTile
+            )
+        )
           ],
         ),
       ),

@@ -2,6 +2,13 @@
   "min_players": 1,
   "max_players": 4,
   "guest_allowed": true,
-  "grid_rows": 8,
-  "grid_columns": 8
+  "grid_rows": 7,
+  "grid_columns": 7,
+  "starting_position": "corner",
+  "treasures": 24,
+  "treasures_private": true,
+  "treasures_visible": 1,
+  "treasures_shared": false,
+  "fixed_grid": "alternate",
+  "number_of_moves": "single"
 }
