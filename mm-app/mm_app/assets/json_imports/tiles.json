@@ -1,0 +1,254 @@
+{
+  "session_id": "164b4abe-85f4-496c-94a9-7fbf5e5d217b",
+  "tiles": [
+    {
+      "id": "f77768d5-8565-48aa-8d43-863554775555",
+      "type": "line",
+      "angle": 270
+    },
+    {
+      "id": "255fa13a-14e4-4801-8146-f7c851036db1",
+      "type": "corner",
+      "angle": 180
+    },
+    {
+      "id": "ead1f781-862c-4830-b12a-ea859deba14d",
+      "type": "line",
+      "angle": 180
+    },
+    {
+      "id": "8244ad51-68a4-4745-9f36-9e1f346df3cb",
+      "type": "tee",
+      "angle": 90
+    },
+    {
+      "id": "bfabeab4-796c-4e0d-813c-dbe6e0df67a1",
+      "type": "corner",
+      "angle": 270
+    },
+    {
+      "id": "4d6362cb-7df7-4dd2-871f-2ef89e655ac4",
+      "type": "tee",
+      "angle": 0
+    },
+    {
+      "id": "5f800445-a3a9-4606-b9a1-07b47d6dfe7b",
+      "type": "corner",
+      "angle": 90
+    },
+    {
+      "id": "d6a5906f-95a7-424c-b211-d44224878181",
+      "type": "line",
+      "angle": 0
+    },
+    {
+      "id": "39844eed-5ab4-49f5-a4ec-59fb4997447c",
+      "type": "tee",
+      "angle": 90
+    },
+    {
+      "id": "66b176fa-1912-478b-b6b8-01fb1633b1a0",
+      "type": "tee",
+      "angle": 270
+    },
+    {
+      "id": "994d4189-46c8-422d-97ac-23cd9e0cffb1",
+      "type": "line",
+      "angle": 90
+    },
+    {
+      "id": "5c1b40eb-4f11-478f-a6fa-e66efdcda4ff",
+      "type": "line",
+      "angle": 0
+    },
+    {
+      "id": "d499269a-3f56-44ac-a88e-1ec74e87c4f0",
+      "type": "corner",
+      "angle": 270
+    },
+    {
+      "id": "b531e465-318c-4f5c-acff-08950fb093e8",
+      "type": "line",
+      "angle": 270
+    },
+    {
+      "id": "27e050c0-9521-4449-802f-1e73c10554b3",
+      "type": "corner",
+      "angle": 180
+    },
+    {
+      "id": "7620af81-8a7d-4111-a7a0-86916143202a",
+      "type": "corner",
+      "angle": 90
+    },
+    {
+      "id": "266020cb-de3e-4902-ba24-ba4b0d90602c",
+      "type": "line",
+      "angle": 0
+    },
+    {
+      "id": "42e3cf5e-8273-402e-a88d-e3e788e7787e",
+      "type": "line",
+      "angle": 0
+    },
+    {
+      "id": "6f12157b-c86a-4ede-a8ed-f5e3b963572c",
+      "type": "tee",
+      "angle": 270
+    },
+    {
+      "id": "c84fd62b-5105-470c-9f8e-c34ca62a797d",
+      "type": "corner",
+      "angle": 0
+    },
+    {
+      "id": "f7fb5994-dda3-4251-a1cc-16417bc0004f",
+      "type": "line",
+      "angle": 180
+    },
+    {
+      "id": "f59e0751-fb9e-44db-a2e1-ca8fa8976e27",
+      "type": "tee",
+      "angle": 270
+    },
+    {
+      "id": "206eb37e-f184-442d-b6aa-2176031c22cc",
+      "type": "corner",
+      "angle": 270
+    },
+    {
+      "id": "1033e3bb-a678-4e96-a32a-58141427e3df",
+      "type": "line",
+      "angle": 90
+    },
+    {
+      "id": "258e4529-f274-458e-8bbd-329cff35b06e",
+      "type": "tee",
+      "angle": 180
+    },
+    {
+      "id": "0d15734c-6940-406c-be14-3715893bcdf1",
+      "type": "corner",
+      "angle": 180
+    },
+    {
+      "id": "e865b27d-6070-4382-b13b-43e624bc6dcb",
+      "type": "corner",
+      "angle": 90
+    },
+    {
+      "id": "df9bec03-5c21-42a5-81d8-a1c755228fb5",
+      "type": "line",
+      "angle": 0
+    },
+    {
+      "id": "557850ca-6e08-4abd-939d-9881d3e35ccb",
+      "type": "tee",
+      "angle": 90
+    },
+    {
+      "id": "fdb6e846-76be-43bb-99ec-fa6c206d7fcb",
+      "type": "corner",
+      "angle": 0
+    },
+    {
+      "id": "98b11e80-e0fb-4000-a295-002ea8261272",
+      "type": "tee",
+      "angle": 90
+    },
+    {
+      "id": "443e56e7-ed26-458c-ae27-763aacb362af",
+      "type": "line",
+      "angle": 90
+    },
+    {
+      "id": "6962b1d0-04c5-45a5-b64a-965d71c571ec",
+      "type": "tee",
+      "angle": 0
+    },
+    {
+      "id": "60757d19-2de6-43a9-b59f-abde8894f425",
+      "type": "tee",
+      "angle": 270
+    },
+    {
+      "id": "a062486b-234c-456c-8bc8-bab8727a9db8",
+      "type": "tee",
+      "angle": 270
+    },
+    {
+      "id": "a166cebb-3390-4edf-b098-6ae2dc557e7b",
+      "type": "tee",
+      "angle": 0
+    },
+    {
+      "id": "654bd421-6b2f-4c09-a231-f7d1509b1b07",
+      "type": "line",
+      "angle": 180
+    },
+    {
+      "id": "5a873d48-c641-41a6-a39e-78d9871fe395",
+      "type": "line",
+      "angle": 180
+    },
+    {
+      "id": "d0397d1f-491b-4ec9-b24c-69c1ec718b99",
+      "type": "corner",
+      "angle": 270
+    },
+    {
+      "id": "86c5403b-f8e4-41a5-852f-437ba6bd0d67",
+      "type": "line",
+      "angle": 90
+    },
+    {
+      "id": "446e2bb5-fc69-4bc7-a5aa-ccdf135333d2",
+      "type": "corner",
+      "angle": 270
+    },
+    {
+      "id": "43791f83-9c6a-4c40-9221-d4943d96bbbd",
+      "type": "line",
+      "angle": 0
+    },
+    {
+      "id": "09a0923a-5910-46b8-aa7e-c735f4f4cd71",
+      "type": "corner",
+      "angle": 270
+    },
+    {
+      "id": "d219a9a8-d024-4432-9df6-2ae8ee512cec",
+      "type": "line",
+      "angle": 270
+    },
+    {
+      "id": "0c7f63f0-c4e4-4154-aab8-624e7f4c81c2",
+      "type": "tee",
+      "angle": 180
+    },
+    {
+      "id": "c1f468cf-d43c-43eb-b533-c0db338692b0",
+      "type": "tee",
+      "angle": 90
+    },
+    {
+      "id": "871fe48b-9c92-423c-9e1e-af179910f533",
+      "type": "line",
+      "angle": 270
+    },
+    {
+      "id": "04a445f5-ce29-4ea2-b387-d1ddf4a597fa",
+      "type": "tee",
+      "angle": 90
+    },
+    {
+      "id": "126de3db-0c37-4054-876d-b0a2814095c6",
+      "type": "corner",
+      "angle": 0
+    },
+    {
+      "id": "ef8462e7-6088-4b83-b344-6f152eded042",
+      "type": "line",
+      "angle": 270
+    }
+  ]}

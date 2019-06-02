@@ -3,16 +3,23 @@ import 'pieces/tile.dart';
 import 'pieces/grid.dart';
 
 class GameScreen extends StatefulWidget {
-  GameScreen({Key key, this.gameRules}) : super(key: key);
+  GameScreen({Key key, this.gameRules, this.gameTiles}) : super(key: key);
   final Map<String, dynamic> gameRules;
+  final List<BoardTile> gameTiles;
 
   @override
   _GameScreenState createState() => _GameScreenState();
 }
 
 class _GameScreenState extends State<GameScreen> {
-  BoardTile _floatTile = BoardTile(angle: 0, type: 'corner', treasure: null);
+  BoardTile _floatTile;
   int _floatAngle = 0;
+
+  @override
+  void initState(){
+    super.initState();
+    _floatTile = widget.gameTiles.removeLast();
+  }
 
   void _rotateTile() {
     setState(() {
@@ -37,7 +44,7 @@ class _GameScreenState extends State<GameScreen> {
             width: 500.0,
             height: 500.0,
           child:
-            GameGrid(gameRules: widget.gameRules,),
+            GameGrid(gameRules: widget.gameRules, gameTiles: widget.gameTiles),
         ),
         GestureDetector(
             onTap: (){

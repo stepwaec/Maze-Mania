@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'utility/jsonManager.dart';
 import 'game.dart';
+import 'pieces/tile.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key key}) : super(key: key);
@@ -14,15 +15,28 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   Map<String, dynamic> gameRules;
+  Map<String, dynamic> boardSetup;
+  List<BoardTile> gameTiles;
 
   @override
   void initState() {
     super.initState();
-    widget.ruleImport.readRules().then((String content) {
+    widget.ruleImport.readJSON('assets/json_imports/rules.json').then((String content) {
       setState(() {
         gameRules = jsonDecode(content);
       });
     });
+    widget.ruleImport.readJSON('assets/json_imports/tiles.json').then((String content) {
+      setState(() {
+        boardSetup  = jsonDecode(content);
+        gameTiles = [];
+        boardSetup['tiles'].forEach((entry) => gameTiles.add(generateTile(entry)));
+      });
+    });
+  }
+
+  BoardTile generateTile(dynamic jsonEntry){
+    return new BoardTile(type: jsonEntry['type'], angle: jsonEntry['angle']);
   }
 
   @override
@@ -43,7 +57,10 @@ class _SplashScreenState extends State<SplashScreen> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => GameScreen(gameRules: gameRules))
+                    MaterialPageRoute(builder: (context) => GameScreen(
+                        gameRules: gameRules,
+                        gameTiles: gameTiles
+                    ))
                   );
                 }
             ),
