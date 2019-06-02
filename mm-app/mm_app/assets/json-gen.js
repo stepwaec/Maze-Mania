@@ -1,13 +1,17 @@
-//   "tile": {
-//     "id": 123111,
-//     "type": "corner",
-//     "angle": 0
-//   }
 
-JSONoutput = (id, type, angle) => {return `\t{\n\t \
+let tile_number = 50;
+let player_names = ["Paul", "Stephan", "Bob"];
+let player_number = player_names.length;
+
+tileOutput = (id, type, angle) => {return `\t{\n\t \
     "id": "${id}",\n\t \
     "type": "${type}",\n\t \
     "angle": ${angle}\n\t \
+},\n`};
+
+playerOutput = (id, name) => {return `\t{\n\t \
+    "id": "${id}",\n\t \
+    "name": "${name}"\n\t \
 },\n`};
 
 randomise_id = () => {
@@ -35,12 +39,20 @@ randomise_angle = () => {
         case 3: return 270;
     }
 }
-output = `{\n"session_id": "${randomise_id()}",\n"tiles": [\n`;
+output = `{\n"session_id": "${randomise_id()}",\n`;
 
-for(let i = 0; i<50; i++) {
-    output += JSONoutput(randomise_id(), randomise_type(), randomise_angle());
+// Player generation
+output += `"players": [\n`;
+for(let i = 0; i<player_number; i++) {
+    output += playerOutput(randomise_id(), player_names[i]);
 }
+output = output.slice(0,-2) + '\n],\n';   // Final ',' to be removed manually afterwards
 
-output = output.slice(0,-2) + '\n]}';
-// Final ',' to be removed manually afterwards
+// Tile generation
+output += `"tiles": [\n`;
+for(let i = 0; i<tile_number; i++) {
+    output += tileOutput(randomise_id(), randomise_type(), randomise_angle());
+}
+output = output.slice(0,-2) + '\n]}';   // Final ',' to be removed manually afterwards
+
 console.log(output);

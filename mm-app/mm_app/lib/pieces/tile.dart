@@ -37,7 +37,7 @@ class BoardTile extends StatelessWidget{
       quarterTurns: (angle / 90).round(),
         child: DecoratedBox(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.lightBlue[50],
           borderRadius: BorderRadius.circular(5.0),
           image: DecorationImage(
               image: AssetImage(_returnTileImagePath(type)))

@@ -16,7 +16,6 @@ class _GameGridState extends State<GameGrid> {
   Widget build(BuildContext context) {
     return GridView.count(
       crossAxisCount: widget.gameRules['grid_columns'],
-      // Generate 100 Widgets that display their index in the List
       children: List.generate(
          widget.gameTiles.length,
               (index) {

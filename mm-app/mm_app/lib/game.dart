@@ -39,10 +39,11 @@ class _GameScreenState extends State<GameScreen> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             SizedBox(
-            width: 500.0,
-            height: 500.0,
+            width: widget.gameRules['grid_columns'] * 50.0,
+            height: widget.gameRules['grid_rows'] * 50.0,
           child:
             GameGrid(gameRules: widget.gameRules, gameTiles: widget.gameTiles),
         ),
