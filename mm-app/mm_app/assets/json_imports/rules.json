@@ -4,6 +4,7 @@
   "guest_allowed": true,
   "grid_rows": 7,
   "grid_columns": 7,
+  "tile_lock": "alternate",
   "starting_position": "corner",
   "treasures": 24,
   "treasures_private": true,

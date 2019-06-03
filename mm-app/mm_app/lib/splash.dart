@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Player generatePlayer(dynamic jsonEntry){
-    return new Player(name: jsonEntry['name'], colour: colours[players.length+1],);
+    return new Player(name: jsonEntry['name'], colour: colours[players.length],);
   }
 
   @override
@@ -69,7 +69,8 @@ class _SplashScreenState extends State<SplashScreen> {
                     context,
                     MaterialPageRoute(builder: (context) => GameScreen(
                         gameRules: gameRules,
-                        gameTiles: gameTiles
+                        gameTiles: gameTiles,
+                        players: players
                     ))
                   );
                 }
