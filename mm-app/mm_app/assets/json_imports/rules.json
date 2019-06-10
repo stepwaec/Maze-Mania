@@ -6,10 +6,9 @@
   "grid_columns": 7,
   "tile_lock": "alternate",
   "starting_position": "corner",
-  "treasures": 24,
-  "treasures_private": true,
-  "treasures_visible": 1,
-  "treasures_shared": false,
-  "fixed_grid": "alternate",
+  "targets": 24,
+  "targets_private": true,
+  "targets_visible": 1,
+  "targets_shared": false,
   "number_of_moves": "single"
 }

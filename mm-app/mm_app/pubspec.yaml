@@ -48,6 +48,7 @@ flutter:
   assets:
     - assets/tile_types/
     - assets/json_imports/
+    - assets/targets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

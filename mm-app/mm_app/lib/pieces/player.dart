@@ -11,7 +11,7 @@ class Player extends StatelessWidget{
   final Color colour;
   final String name;
   final List<String> targetIds;
-  int position = 0; // Position is relative to array of tiles
+  //int position = 0; // Position is relative to array of tiles
 
   @override
   Widget build(BuildContext context) {
