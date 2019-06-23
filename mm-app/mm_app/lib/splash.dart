@@ -49,7 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Player generatePlayer(dynamic jsonEntry){
-    return new Player(name: jsonEntry['name'], colour: colours[players.length],);
+    return new Player(name: jsonEntry['name'], colour: colours[players.length], playerId: int.parse(jsonEntry['id']),);
   }
 
   List<String> generateTargetList(int num){

@@ -1,20 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:mm_app/pieces/tile.dart';
 
-class Player extends StatelessWidget{
+class Player extends StatefulWidget { // TODO: Can I revert it back to Stateless?
   Player({
     Key key,
+    this.playerId,
     this.colour,
     this.name,
     this.targetIds
   }) : super(key: key);
 
+  final int playerId;
   final Color colour;
   final String name;
   final List<String> targetIds;
-  //int position = 0; // Position is relative to array of tiles
+  BoardTile _currentTile;
+
+  void setPlayerPosition(newTile){
+    _currentTile = newTile;
+  }
+//
+//  Widget getPlayerToken(){
+//    return Text(this.name);
+//  }
+
+  BoardTile getPlayerPosition(){
+    return _currentTile;
+  }
+
+  @override
+  _PlayerState createState() => _PlayerState();
+}
+
+class _PlayerState extends State<Player> {
 
   @override
   Widget build(BuildContext context) {
-    return Text(name);
+    return Text(widget.name);
   }
 }

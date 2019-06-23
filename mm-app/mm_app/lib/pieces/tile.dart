@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mm_app/pieces/player.dart';
 
 class BoardTile extends StatefulWidget {
   BoardTile({
@@ -13,7 +14,7 @@ class BoardTile extends StatefulWidget {
   final String type; // Possible values: line, corner, tee
   int angle;
   String target; // Content could be a target, a player starting or current position
-  int _playerId;
+  Player _player;
   int _startingPositionId;
   Color _startingPositionColor;
   bool _movable = true;
@@ -22,14 +23,14 @@ class BoardTile extends StatefulWidget {
     _movable = move;  // Need to use a const file to store colours etc.
   }
 
-  void setPlayer(playerId) {
-    _playerId = playerId;
+  void setPlayer(player) {
+    _player = player;
   }
 
-  void setStartingPosition(playerId, playerColour) {
-    _playerId = playerId;
-    _startingPositionId = playerId;
-    _startingPositionColor = playerColour;
+  void setStartingPosition(player) {
+    setPlayer(player);
+    _startingPositionId = player.playerId;
+    _startingPositionColor = player.colour;
   }
 
   String _getTargetPath(targetId) {
@@ -38,6 +39,10 @@ class BoardTile extends StatefulWidget {
 
   String _getTileImagePath(type) {
     return 'assets/tile_types/$type.png';
+  }
+
+  String getPlayerValue() {
+    return "P${_player.playerId + 1}";
   }
 
   List<bool> getMoveOptions() { // up, right, down, left
@@ -62,11 +67,9 @@ class BoardTile extends StatefulWidget {
 
   @override
     _BoardTileState createState() => _BoardTileState();
-
 }
 
 class _BoardTileState extends State<BoardTile> {
-
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
@@ -76,10 +79,10 @@ class _BoardTileState extends State<BoardTile> {
         maxHeight: 50.0,
         maxWidth: 50.0,
     ),
-    child: new Stack(
+    child: Stack(
       alignment: Alignment.topRight,
       children: <Widget>[
-        new Positioned(
+        Positioned(
             left: 0.0, right: 0.0, bottom: 0.0, top: 0.0,
             child:RotatedBox(
             quarterTurns: (widget.angle / 90).round(),
@@ -97,38 +100,38 @@ class _BoardTileState extends State<BoardTile> {
                 )
             ))),
         (widget.target != null)
-            ? new Positioned(
+            ? Positioned(
                 child: Container(
                   margin: EdgeInsets.all(2.5),
                   width: 14.0,
                   height: 14.0,
-                  decoration: new BoxDecoration(
+                  decoration: BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage(widget._getTargetPath(widget.target))
                     )
                   ),
                 ),
               )
-            : new Container(width: 0, height: 0),
+            : Container(width: 0, height: 0),
         (widget._startingPositionId != null)
-            ? new Positioned(
+            ? Positioned(
             left: 12.5,  top: 12.5,
             child: Container(
               height: 25.0,
               width: 25.0,
-              decoration: new BoxDecoration(
+              decoration: BoxDecoration(
                   color: widget._startingPositionColor,
                   shape: BoxShape.circle,
               )
             )
         )
-            : new Container(width: 0, height: 0),
-        (widget._playerId != null)
-            ? new Positioned(
+            : Container(width: 0, height: 0),
+        (widget._player != null)
+            ? Positioned(
             left: 17.0,  top: 17.0,
-            child: Text("P"+(widget._playerId+1).toString()),
+            child: widget._player, //widget._player.getPlayerToken(),
             )
-            : new Container(width: 0, height: 0)
+            : Container(width: 0, height: 0)
       ],
     ),);
   }

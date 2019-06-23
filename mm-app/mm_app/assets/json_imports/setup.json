@@ -2,19 +2,19 @@
   "session_id": "86d830a4-8f40-439c-a0e5-7d28b1c22d32",
   "players": [
     {
-      "id": "37e08a3d-4009-4219-8ca5-5865ea4ac5dd",
+      "id": "1",
       "name": "Paul"
     },
     {
-      "id": "195c2c7a-31f0-4f25-bb58-e3b990760d3a",
+      "id": "2",
       "name": "Stephan"
     },
     {
-      "id": "22e5dc73-0eed-4524-af33-e86baafc8ba0",
+      "id": "3",
       "name": "Bob"
     },
     {
-      "id": "22e5dc73-0eed-4524-af33-e86baafc8ba1",
+      "id": "4",
       "name": "Richard"
     }
   ],
@@ -257,8 +257,8 @@
     },
     {
       "id": "70f0ee75-ffa2-4fd2-8361-9bce143f8180",
-      "type": "corner",
-      "angle": 180
+      "type": "tee",
+      "angle": 0
     },
     {
       "id": "e53800d1-b284-4196-b167-855d2445c028",

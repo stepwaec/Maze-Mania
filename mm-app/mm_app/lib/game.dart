@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'pieces/tile.dart';
-import 'pieces/grid.dart';
 import 'pieces/player.dart';
 import 'pieces/inserter.dart';
 
@@ -18,6 +17,8 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> {
   BoardTile _floatTile;
   int _floatAngle;  // Independent from tile angle (starts at 0)
+  Player currentPlayer;
+
 
   @override
   void initState(){
@@ -26,8 +27,9 @@ class _GameScreenState extends State<GameScreen> {
     _floatAngle = 0;
     _blockTiles(widget.gameRules['tile_lock']);
     for(int i = 0; i<widget.players.length; i++){ // Set position of players
-      _setStartingTile(i);
+      _setStartingTile(widget.players[i]);
     }
+    currentPlayer = widget.players[2]; // TODO: make this dynamic with round data
   }
 
   // INITIALISATION FUNCTIONS
@@ -49,7 +51,7 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   // Max of 8 players for this game setup
-  void _setStartingTile(playerId){  // Sequentially invoked, assumes max_number is checked
+  void _setStartingTile(player){  // Sequentially invoked, assumes max_number is checked
     /*
     PATTERN:   P1 - P7 - P4
                -  - -  - -
@@ -58,40 +60,35 @@ class _GameScreenState extends State<GameScreen> {
                P3 - P8 - P2
 
      */
-    switch (playerId) {
+    int target;
+    switch (player.playerId-1) {    // Players are given ids starting from 1
       case 0: // First tile
-        int target = 0;
-        widget.gameTiles[target].setStartingPosition(playerId, widget.players[playerId].colour);
+        target = 0;
         break;
       case 1: // Last tile
-        int target = widget.gameTiles.length-1;
-        widget.gameTiles[target].setStartingPosition(playerId, widget.players[playerId].colour);
+        target = widget.gameTiles.length-1;
         break;
       case 2: // Beginning of last row
-        int target = widget.gameTiles.length - widget.gameRules['grid_columns'];
-        widget.gameTiles[target].setStartingPosition(playerId, widget.players[playerId].colour);
+        target = widget.gameTiles.length - widget.gameRules['grid_columns'];;
         break;
       case 3: // End of first row
-        int target = widget.gameRules['grid_columns']-1;
-        widget.gameTiles[target].setStartingPosition(playerId, widget.players[playerId].colour);
+        target = widget.gameRules['grid_columns']-1;
         break;
       case 4: // Beginning of middle row
-        int target = (widget.gameRules['grid_rows']/2 - 1).round() * widget.gameRules['grid_columns'];
-        widget.gameTiles[target].setStartingPosition(playerId, widget.players[playerId].colour);
+        target = (widget.gameRules['grid_rows']/2 - 1).round() * widget.gameRules['grid_columns'];
         break;
       case 5: // End of middle row
-        int target =  (widget.gameRules['grid_rows']/2).round() * widget.gameRules['grid_columns'] - 1;
-        widget.gameTiles[target].setStartingPosition(playerId, widget.players[playerId].colour);
+        target =  (widget.gameRules['grid_rows']/2).round() * widget.gameRules['grid_columns'] - 1;
         break;
       case 6: // Middle of first row
-        int target = (widget.gameRules['grid_columns']/2 - 1).round();
-        widget.gameTiles[target].setStartingPosition(playerId, widget.players[playerId].colour);
+        target = (widget.gameRules['grid_columns']/2 - 1).round();
         break;
       case 7: // Middle of last row
-        int target = widget.gameTiles.length - (widget.gameRules['grid_columns']/2).round();
-        widget.gameTiles[target].setStartingPosition(playerId, widget.players[playerId].colour);
+        target = widget.gameTiles.length - (widget.gameRules['grid_columns']/2).round();
         break;
     }
+    widget.gameTiles[target].setStartingPosition(player);
+    player.setPlayerPosition(widget.gameTiles[target]);
   }
 
   Widget _getInserters(side, type, number, pattern) {
@@ -132,12 +129,14 @@ class _GameScreenState extends State<GameScreen> {
                     height: (type == 'column') ? 20.0 : 40.0,
                     width: (type == 'column') ? 40.0 : 20.0,
                     child:
-                    new Inserter(type: type, side: side, index: _getRCIndex(index),)
+                    Inserter(type: type, side: side, index: _getRCIndex(index),)
                 ),)
           ));
         },)
     );
     }
+    else
+      return null;
   }
 
   // SUPPORT FUNCTIONS
@@ -166,12 +165,76 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   int _getTileIndex(row, column){
-    return row * (widget.gameRules['grid_rows'] - 1) + column * (widget.gameRules['grid_columns'] - 1);
+    return row * widget.gameRules['grid_columns'] + column;
+  }
+
+  List<BoardTile> _getPossibleRelativeTiles(currentTile){
+    List<BoardTile> options = [];
+    List<bool> directionsAllowed = currentTile.getMoveOptions(); // Up, right, down, left
+    int indexPosition = widget.gameTiles.indexOf(currentTile);
+    BoardTile _tileAbove, _tileRight, _tileBelow, _tileLeft;
+
+    if(directionsAllowed[0] && indexPosition - widget.gameRules['grid_columns'] > 0) { // Check UP AND NOT top row
+      _tileAbove = widget.gameTiles[indexPosition - widget.gameRules['grid_columns']];
+      if(_tileAbove.getMoveOptions()[2]) {  // If tile above can also accept down
+        options.add(_tileAbove);
+      }
+    }
+    if(directionsAllowed[1] && (indexPosition + 1) % widget.gameRules['grid_columns'] != 0){ // Check Right AND NOT right column
+      _tileRight = widget.gameTiles[indexPosition + 1];
+      if(_tileRight.getMoveOptions()[3]) { // If right tile can also accept left
+        options.add(_tileRight);
+      }
+    }
+    if(directionsAllowed[2] && indexPosition + widget.gameRules['grid_columns'] < widget.gameTiles.length){ // Check Down AND NOT bottom row
+      _tileBelow = widget.gameTiles[indexPosition + widget.gameRules['grid_columns']];
+      if(_tileBelow.getMoveOptions()[0]) {  // If tile below can also accept up
+        options.add(_tileBelow);
+      }
+    }
+    if(directionsAllowed[3] && (indexPosition-1) % widget.gameRules['grid_columns'] != widget.gameRules['grid_columns'] - 1){ // Left...
+      _tileLeft = widget.gameTiles[indexPosition - 1];
+      if(_tileLeft.getMoveOptions()[1]) { // ...
+        options.add(_tileLeft);
+      }
+    }
+    return options;
   }
 
   // PLAY FUNCTIONS
   void _transferFloat(type, side, index ) {
-    print("TRANSFER: $type, $side, $index");
+    setState(() {
+      BoardTile newFloat;
+      if(type == 'row' && side == 'start') {
+        newFloat = widget.gameTiles[_getTileIndex(index, widget.gameRules['grid_columns'] - 1)];
+        widget.gameTiles.removeAt(_getTileIndex(index, widget.gameRules['grid_columns'] - 1));
+        widget.gameTiles.insert(_getTileIndex(index, 0), _floatTile);
+        _floatTile = newFloat;
+      } else if(type == 'row' && side == 'end') {
+        newFloat = widget.gameTiles[_getTileIndex(index, 0)];
+        widget.gameTiles.removeAt(_getTileIndex(index, 0));
+        widget.gameTiles.insert(_getTileIndex(index, widget.gameRules['grid_columns'] - 1), _floatTile);
+        _floatTile = newFloat;
+      } else if(type == 'column' && side == 'start') {
+        newFloat = widget.gameTiles[_getTileIndex(widget.gameRules['grid_rows'] - 1, index)];
+        for (int i = _getTileIndex(widget.gameRules['grid_rows']-1, index);
+              i >= widget.gameRules['grid_columns'];
+              i -= widget.gameRules['grid_columns']) {
+          widget.gameTiles[i] = widget.gameTiles[i - widget.gameRules['grid_columns']];
+        }
+        widget.gameTiles[index] = _floatTile;
+        _floatTile = newFloat;
+      } else { // row, end
+          newFloat = widget.gameTiles[index];
+          for (int i = index;
+                i <= widget.gameTiles.length - widget.gameRules['grid_columns'];
+                i += widget.gameRules['grid_columns']) {
+            widget.gameTiles[i] = widget.gameTiles[i + widget.gameRules['grid_columns']];
+          }
+          widget.gameTiles[_getTileIndex(widget.gameRules['grid_rows']-1, index)] = _floatTile;
+          _floatTile = newFloat;
+      }
+    });
   }
 
   void _rotateFloat() {
@@ -179,6 +242,27 @@ class _GameScreenState extends State<GameScreen> {
       _floatAngle = (_floatAngle + 90) % 360;
       _floatTile.angle = (_floatTile.angle + 90) % 360;
       print(_floatTile.getMoveOptions().toString());
+    });
+  }
+
+  void _movePlayer(BoardTile newPosition){
+    setState((){
+      BoardTile _currentTile = currentPlayer.getPlayerPosition();
+      if (_currentTile == _floatTile){
+        print("CANNOT MOVE, you are on the float");
+      }
+      else {
+        List<BoardTile> options = _getPossibleRelativeTiles(_currentTile);
+        if(options.contains(newPosition)){
+          print("${currentPlayer.name} can move there");
+            _currentTile.setPlayer(null);
+            newPosition.setPlayer(currentPlayer);
+            currentPlayer.setPlayerPosition(newPosition);;
+            print("${currentPlayer.name} has moved.");
+        } else {
+          print("${currentPlayer.name} CANNOT move there");
+        }
+      }
     });
   }
 
@@ -216,7 +300,17 @@ class _GameScreenState extends State<GameScreen> {
             width: widget.gameRules['grid_columns'] * 50.0,
             height: widget.gameRules['grid_rows'] * 50.0,
               child:
-                GameGrid(gameRules: widget.gameRules, gameTiles: widget.gameTiles),
+              GridView.count(
+                  crossAxisCount: widget.gameRules['grid_columns'],
+                  children: List.generate(
+                    widget.gameTiles.length,
+                        (index) {
+                      return GestureDetector(
+                          onTap: () =>  _movePlayer(widget.gameTiles[index]),
+                          child: widget.gameTiles[index]
+                      );
+                    },
+                  )),
             ),
             _getInserters(
                 'end',
@@ -233,19 +327,20 @@ class _GameScreenState extends State<GameScreen> {
                 widget.gameRules['tile_lock']
             ),
             ConstrainedBox(
-        constraints: BoxConstraints(
-          minHeight: 50.0,
-          minWidth: 50.0,
-          maxHeight: 50.0,
-          maxWidth: 50.0,
-        ), child: GestureDetector(
-              onTap: (){
-                _rotateFloat();
-              }, child: RotatedBox(
-                  quarterTurns: (_floatAngle / 90).round(),
-                  child:  _floatTile
-              )
-          )),
+              constraints: BoxConstraints(
+                minHeight: 50.0,
+                minWidth: 50.0,
+                maxHeight: 50.0,
+                maxWidth: 50.0,
+              ), child: GestureDetector(
+                    onTap: (){
+                      _rotateFloat();
+                    }, child: RotatedBox(
+                          quarterTurns: (_floatAngle / 90).round(),
+                          child:  _floatTile
+                    )
+                )
+            ),
           ],
         ),
       ),
